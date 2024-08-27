@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+class UserListScreen extends StatelessWidget {
+  const UserListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Users'),
+      ),
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('User $index'),
+            onTap: () {},
+          );
+        },
+      ),
+    );
+  }
+}
