@@ -26,6 +26,7 @@ class UserListViewModel extends ChangeNotifier {
     // await Future.delayed(const Duration(seconds: 1));
 
     _users.addAll(newUsers);
+    print(_users);
     notifyListeners();
   }
 
