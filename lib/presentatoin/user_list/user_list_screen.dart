@@ -21,17 +21,20 @@ class UserListScreen extends StatelessWidget {
           } else if (viewModel.hasError) {
             return const Center(child: Text('Error fetching users'));
           } else {
-            return ListView.builder(
-              itemCount: viewModel.users.length,
-              itemBuilder: (context, index) {
-                final user = viewModel.users[index];
-                return ListTile(
-                  title: UserItem(user: user),
-                  onTap: () {
-                    context.go('/repositories', extra: user.username);
-                  },
-                );
-              },
+            return RefreshIndicator(
+              onRefresh: viewModel.fetchFirstPageUsers,
+              child: ListView.builder(
+                itemCount: viewModel.users.length,
+                itemBuilder: (context, index) {
+                  final user = viewModel.users[index];
+                  return ListTile(
+                    title: UserItem(user: user),
+                    onTap: () {
+                      context.go('/repositories', extra: user.username);
+                    },
+                  );
+                },
+              ),
             );
           }
         },

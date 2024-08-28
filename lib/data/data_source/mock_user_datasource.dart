@@ -199,6 +199,18 @@ class MockUserDataSource implements UserDataSource {
     final List<dynamic> data = json.decode(mockJsonData);
     final List<UserDto> userDtos =
         data.map((json) => UserDto.fromJson(json)).toList();
-    return userDtos.map((userDto) => userDto.toDomain()).toList();
+
+    // Pagination logic
+    int startIndex = (page - 1) * perPage;
+    int endIndex = startIndex + perPage;
+
+    if (startIndex >= userDtos.length) {
+      return [];
+    }
+
+    final paginatedUserDtos = userDtos.sublist(
+        startIndex, endIndex > userDtos.length ? userDtos.length : endIndex);
+
+    return paginatedUserDtos.map((userDto) => userDto.toDomain()).toList();
   }
 }
