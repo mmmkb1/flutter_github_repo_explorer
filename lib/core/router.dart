@@ -12,8 +12,11 @@ final GoRouter router = GoRouter(
     GoRoute(
         path: '/',
         builder: (context, state) => ChangeNotifierProvider(
-              create: (context) =>
-                  UserListViewModel(UserRepositoryImpl(MockUserDataSource())),
+              create: (context) => UserListViewModel(
+                UserRepositoryImpl(
+                  MockUserDataSource(),
+                ),
+              ),
               child: const UserListScreen(),
             )),
     GoRoute(

@@ -16,20 +16,20 @@ class UserListViewModel extends ChangeNotifier {
   List<User> get users => _users;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
+  int get currentPage => _currentPage;
 
   Future<void> fetchFirstPageUsers() async {
     _users.clear();
     notifyListeners();
 
     final newUsers = await _userRepository.fetchUsers(page: 1, perPage: 3);
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
 
     _users.addAll(newUsers);
     notifyListeners();
   }
 
-  Future<void> fetchUsersWithPagination(
-      {required int page, required int perPage}) async {
+  Future<void> fetchUsersWithPagination({required int perPage}) async {
     if (_isLoading) return; // 중복 호출 방지
     _isLoading = true;
     _hasError = false;
@@ -37,7 +37,7 @@ class UserListViewModel extends ChangeNotifier {
 
     try {
       final newUsers = await _userRepository.fetchUsers(
-        page: page,
+        page: _currentPage,
         perPage: perPage,
       );
       _users.addAll(newUsers);
