@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_github_repo_explorer/core/router.dart';
 import 'package:flutter_github_repo_explorer/data/data_source/api_user_data_source.dart';
+import 'package:flutter_github_repo_explorer/data/data_source/user_data_source.dart';
 
 void main() async {
-  ApiUserDataSource apiUserDataSource = ApiUserDataSource();
+  UserDataSource apiUserDataSource = ApiUserDataSource();
   print(await apiUserDataSource.fetchUsers(page: 1, perPage: 10));
 
   runApp(const MyApp());
