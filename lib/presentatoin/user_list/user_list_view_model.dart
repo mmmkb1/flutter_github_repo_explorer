@@ -21,12 +21,12 @@ class UserListViewModel extends ChangeNotifier {
   Future<void> fetchFirstPageUsers() async {
     _users.clear();
     notifyListeners();
-
+    _currentPage = 2;
     final newUsers = await _userRepository.fetchUsers(page: 1, perPage: 3);
     // await Future.delayed(const Duration(seconds: 1));
 
     _users.addAll(newUsers);
-    print(_users);
+    print('hello');
     notifyListeners();
   }
 
