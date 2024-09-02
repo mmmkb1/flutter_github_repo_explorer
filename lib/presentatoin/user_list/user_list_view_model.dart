@@ -4,29 +4,45 @@ import 'package:flutter_github_repo_explorer/domain/repository/user_repository.d
 
 class UserListViewModel extends ChangeNotifier {
   final UserRepository _userRepository;
-
   UserListViewModel(this._userRepository) {
-    fetchUsers();
+    fetchFirstPageUsers();
   }
 
-  List<User> _users = [];
+  final List<User> _users = [];
   bool _isLoading = false;
   bool _hasError = false;
+  int _currentPage = 1;
 
   List<User> get users => _users;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
+  int get currentPage => _currentPage;
 
-  Future<void> fetchUsers() async {
+  Future<void> fetchFirstPageUsers() async {
+    _users.clear();
+    notifyListeners();
+    _currentPage = 2;
+    final newUsers = await _userRepository.fetchUsers(page: 1, perPage: 3);
+    // await Future.delayed(const Duration(seconds: 1));
+
+    _users.addAll(newUsers);
+    print('hello');
+    notifyListeners();
+  }
+
+  Future<void> fetchUsersWithPagination({required int perPage}) async {
+    if (_isLoading) return; // 중복 호출 방지
     _isLoading = true;
     _hasError = false;
     notifyListeners();
 
     try {
-      _users = await _userRepository.fetchUsers(
-        page: 1,
-        perPage: 10,
+      final newUsers = await _userRepository.fetchUsers(
+        page: _currentPage,
+        perPage: perPage,
       );
+      _users.addAll(newUsers);
+      _currentPage++;
     } catch (e) {
       _hasError = true;
       // Log the error
